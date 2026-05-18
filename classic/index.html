@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>福岡ビルド 会社案内パンフレット — 組版プレビュー</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+    background: #d0d0d0;
+    color: #333;
+  }
+
+  /* シート(A4横) */
+  .sheet {
+    width: 297mm;
+    height: 210mm;
+    background: #fff;
+    display: flex;
+    position: relative;
+    margin: 12mm auto;
+    box-shadow: 0 8px 30px rgba(0,0,0,.2);
+    overflow: hidden;
+    page-break-after: always;
+  }
+  .sheet:last-child { page-break-after: auto; }
+
+  /* 折り線 */
+  .sheet::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 0;
+    border-left: 1px dashed rgba(0,0,0,.12);
+    z-index: 10;
+  }
+
+  /* 各パネル */
+  .panel {
+    width: 50%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f0f0f0;
+    position: relative;
+  }
+
+  /* 画像がない時のプレースホルダー文字 */
+  .panel::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #999;
+    font-size: 14pt;
+    letter-spacing: .1em;
+    pointer-events: none;
+  }
+  .panel.has-image::after { display: none; }
+
+  /* ========= ファイル名指定 ========= */
+  /* 外面（折ったときに見える表側） */
+  .panel.back-cover { background-image: url("images/02_back.png"); }   /* 外面・左 */
+  .panel.front-cover { background-image: url("images/01_cover.png"); } /* 外面・右 */
+
+  /* 中面（開いたときに見える内側） */
+  .panel.reasons { background-image: url("images/03_reasons.png"); }   /* 中面・左 */
+  .panel.business { background-image: url("images/04_business.png"); } /* 中面・右 */
+
+  /* スクリーン専用ガイド */
+  .guide {
+    max-width: 297mm;
+    margin: 14mm auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 18px 24px;
+    font-size: 13px;
+    line-height: 1.8;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+  .guide h2 { font-size: 14pt; color: #1a3a5c; margin-bottom: 8px; }
+  .guide code {
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: "SF Mono", Menlo, monospace;
+    font-size: 12px;
+  }
+  .sheet-label {
+    max-width: 297mm;
+    margin: 6mm auto -6mm;
+    padding: 6px 12px;
+    font-size: 11pt;
+    color: #555;
+    letter-spacing: .1em;
+  }
+  @media print {
+    body { background: white; }
+    .guide, .sheet-label { display: none; }
+    .sheet { margin: 0; box-shadow: none; }
+    .sheet::before { display: none; }
+  }
+
+  /* JS でクラス付与 */
+</style>
+</head>
+<body>
+
+<div class="guide">
+  <h2>使い方</h2>
+  1. <code>images/</code> フォルダに以下の4枚を入れる<br>
+  　　・<code>01_cover.png</code> — 表紙（外面・右）<br>
+  　　・<code>02_back.png</code> — 裏表紙（外面・左）<br>
+  　　・<code>03_reasons.png</code> — 選ばれる理由（中面・左）<br>
+  　　・<code>04_business.png</code> — 事業紹介（中面・右）<br>
+  2. このページをブラウザで再読み込み<br>
+  3. <code>Cmd+P</code> → 用紙サイズ <strong>A4・横向き</strong>・余白なし → 「PDFとして保存」<br>
+  4. 両面印刷（長辺とじ）→ 中央で二つ折り → 仕上がりA5の会社案内パンフ
+</div>
+
+<!-- 1枚目：外面（折った状態で見える側） -->
+<div class="sheet-label">SHEET 1 — 外面（左：裏表紙 ／ 右：表紙）</div>
+<div class="sheet">
+  <div class="panel back-cover" data-label="02_back.png をここに"></div>
+  <div class="panel front-cover" data-label="01_cover.png をここに"></div>
+</div>
+
+<!-- 2枚目：中面（開いた状態で見える側） -->
+<div class="sheet-label">SHEET 2 — 中面（左：選ばれる理由 ／ 右：事業紹介）</div>
+<div class="sheet">
+  <div class="panel reasons" data-label="03_reasons.png をここに"></div>
+  <div class="panel business" data-label="04_business.png をここに"></div>
+</div>
+
+<script>
+  // 画像が読み込めたら has-image クラスを付ける（プレースホルダー文字を消す）
+  document.querySelectorAll('.panel').forEach(panel => {
+    const bg = window.getComputedStyle(panel).backgroundImage;
+    if (!bg || bg === 'none') return;
+    const url = bg.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+    const img = new Image();
+    img.onload = () => panel.classList.add('has-image');
+    img.src = url;
+  });
+</script>
+
+</body>
+</html>
