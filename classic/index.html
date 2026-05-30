@@ -70,7 +70,107 @@
 
   /* 中面（開いたときに見える内側） */
   .panel.reasons { background-image: url("images/03_reasons.png"); }   /* 中面・左 */
-  .panel.business { background-image: url("images/04_business.png"); } /* 中面・右 */
+  /* .panel.business は HTML+CSS で再構築（事業紹介） */
+  .panel.business {
+    background: #fbf7ed;
+    display: flex;
+    flex-direction: column;
+    padding: 11mm 9mm 0;
+  }
+  .panel.business::after { display: none; }
+
+  .biz-head {
+    margin-bottom: 4mm;
+  }
+  .biz-head .eyebrow {
+    font-size: 8.5pt;
+    letter-spacing: .22em;
+    color: #c08a4a;
+    font-weight: 600;
+  }
+  .biz-head .title {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+    font-size: 26pt;
+    color: #1a3a5c;
+    line-height: 1.1;
+    margin-top: 1mm;
+    letter-spacing: .05em;
+  }
+
+  .biz-cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2.2mm;
+  }
+  .biz-card {
+    flex: 1;
+    display: flex;
+    border: 1.4px solid #1a3a5c;
+    border-radius: 3px;
+    background: #fff;
+    overflow: hidden;
+    min-height: 0;
+  }
+  .biz-card .ph {
+    width: 32%;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+  }
+  .biz-card .body {
+    flex: 1;
+    padding: 2.6mm 3.4mm 2.6mm 3.6mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .biz-card .t-jp {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+    color: #1a3a5c;
+    font-size: 13pt;
+    line-height: 1.15;
+    letter-spacing: .04em;
+  }
+  .biz-card .t-en {
+    color: #c08a4a;
+    font-size: 7.2pt;
+    letter-spacing: .18em;
+    font-weight: 600;
+    margin-top: 0.6mm;
+  }
+  .biz-card .desc {
+    margin-top: 1.6mm;
+    font-size: 7.6pt;
+    line-height: 1.65;
+    color: #2a2a2a;
+    letter-spacing: .01em;
+  }
+
+  .biz-cta {
+    margin: 3mm -9mm 0;
+    background: #1a3a5c;
+    color: #fff;
+    text-align: center;
+    padding: 3mm 0;
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+    font-size: 11pt;
+    letter-spacing: .35em;
+  }
+  .biz-cta::before {
+    content: "";
+    display: block;
+    height: 1.2mm;
+    background: #c08a4a;
+    margin: -3mm 0 3mm;
+  }
+
+  /* card photos */
+  .biz-card.c1 .ph { background-image: url("images/cards/card1_photo.jpg"); }
+  .biz-card.c2 .ph { background-image: url("images/cards/card2_photo.jpg"); }
+  .biz-card.c3 .ph { background-image: url("images/cards/card3_photo.jpg"); }
+  .biz-card.c4 .ph { background-image: url("images/cards/card4_photo.jpg"); }
+  .biz-card.c5 .ph { background-image: url("images/cards/card5_photo.jpg"); }
 
   /* スクリーン専用ガイド */
   .guide {
@@ -134,7 +234,55 @@
 <div class="sheet-label">SHEET 2 — 中面（左：選ばれる理由 ／ 右：事業紹介）</div>
 <div class="sheet">
   <div class="panel reasons" data-label="03_reasons.png をここに"></div>
-  <div class="panel business" data-label="04_business.png をここに"></div>
+  <div class="panel business">
+    <div class="biz-head">
+      <div class="eyebrow">OUR BUSINESS</div>
+      <div class="title">事業紹介</div>
+    </div>
+    <div class="biz-cards">
+      <div class="biz-card c1">
+        <div class="ph"></div>
+        <div class="body">
+          <div class="t-jp">木造アパート建築</div>
+          <div class="t-en">WOODEN APARTMENT</div>
+          <div class="desc">新築アパートを軸に、土地活用・不動産投資を総合的に支援。単身向け・ファミリー向けなど建築予定地のエリアマーケティングを徹底実施し、家賃査定・建築費・利回りを踏まえた収益性の高い事業計画をご提案いたします。</div>
+        </div>
+      </div>
+      <div class="biz-card c2">
+        <div class="ph"></div>
+        <div class="body">
+          <div class="t-jp">ユーミーマンション</div>
+          <div class="t-en">RC MANSION</div>
+          <div class="desc">デザイン性と居住性を兼ね備えた高品質な賃貸マンションブランド。RC造（鉄筋コンクリート造）により建物の長寿命化と高い資産価値を実現。充実した設備と高い入居者満足度で、将来にわたる安定収益と資産の最大化をご支援いたします。</div>
+        </div>
+      </div>
+      <div class="biz-card c3">
+        <div class="ph"></div>
+        <div class="body">
+          <div class="t-jp">戸建住宅</div>
+          <div class="t-en">DETACHED HOUSE</div>
+          <div class="desc">カリフォルニアスタイルを中心に、デザイン・性能・住みやすさを追求した家造り。開放的な空間やナチュラルな素材使いなど、お客様のライフスタイルに合わせた完全自由設計が可能。丁寧なヒアリングで、人生に寄り添った理想の住まいをご提供いたします。</div>
+        </div>
+      </div>
+      <div class="biz-card c4">
+        <div class="ph"></div>
+        <div class="body">
+          <div class="t-jp">店舗・商業施設建築</div>
+          <div class="t-en">COMMERCIAL FACILITIES</div>
+          <div class="desc">店舗・事務所・クリニック・介護施設・倉庫など、さまざまな用途の非住宅建築に対応。木造・鉄骨・RC造など建物の用途や規模に応じた最適な構造をご提案し、機能性とコストバランスを重視して設計から施工まで一貫サポートいたします。</div>
+        </div>
+      </div>
+      <div class="biz-card c5">
+        <div class="ph"></div>
+        <div class="body">
+          <div class="t-jp">オリナス株式会社</div>
+          <div class="t-en">DESIGN PARTNER</div>
+          <div class="desc">設計・企画提案を専門に行うグループ会社。初期計画から施工連携まで一貫して携わることで、建築計画の精度と完成度をより高めます。機能性・デザイン性・コスト面を総合的に考慮した最適なプランを、緊密な連携でご提案いたします。</div>
+        </div>
+      </div>
+    </div>
+    <div class="biz-cta">安く建てるのではなく、事業として成立する建築を。</div>
+  </div>
 </div>
 
 <script>
